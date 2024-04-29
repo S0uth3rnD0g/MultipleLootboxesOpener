@@ -1,0 +1,22 @@
+<code>
+	<target_File file="gui/uss_settings.xml">
+		<!-- Insert code from <insert> in block <mods> w/o attrs-->
+		<root_Node>
+			<mods>
+				<insert>
+					<swffile>../unbound/mods/MultipleLootboxesOpener.swf</swffile>
+					<attrs>
+						<do_if_not_exist tag="swffile" text="MultipleLootboxesOpener.swf"/>
+					</attrs>
+				</insert>
+				<insert>
+					<xmlfile>../unbound/mods/MultipleLootboxesOpener.xml</xmlfile>
+					<attrs>
+						<do_if_not_exist tag="xmlfile" text="MultipleLootboxesOpener.xml"/>
+					</attrs>
+				</insert>
+			</mods>
+		</root_Node>
+	</target_File>
+	<check name="MultipleLootboxesOpener" version="1.0.0"/>
+</code>

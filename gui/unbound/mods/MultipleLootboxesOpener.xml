@@ -1,0 +1,191 @@
+<ui>
+	<block className="LootboxTypeManagementPanel">
+		<bind name="collectionDH" value="CC.lootboxTypeInfoComponent; 'lootboxTypesEntitiesList'; 'sorted'"/>
+		<bind name="primaryEntityDH" value="'lootboxTypesEntity'; CC.lootboxTypeInfoComponent; _selectedIndex"/>
+		<bind name="watch" value="'isLinkAvailable';	lootboxTypesEntity.lootboxTypeInfoComponent.isLinkAvailable"/>
+		<bind name="watchDH" value="'amount';		['lootboxTypesEntity.lootboxTypeInfoComponent.evAmountChanged']; lootboxTypesEntity.lootboxTypeInfoComponent.amount"/>
+		<bind name="watch" value="'subtype';			lootboxTypesEntity.lootboxTypeInfoComponent.subtype"/>
+		<bind name="watch" value="'containerType';	lootboxTypesEntity.lootboxTypeInfoComponent.containerType"/>
+		<bind name="watch" value="'title'; tr(toUpperCase('IDS_REWARD_LOOTBOX_' + subtype + '_TITLE'))"/>
+		<bind name="watch" value="'isMultipleAmount'; amount &gt; 1"/>
+		<bind name="firstEntityDH" value="'lootboxEntity'; CC.lootboxConfigComponent"/>
+		<bind name="watchDH" value="'isLootboxOpened';	['lootboxEntity.lootboxAnimationState.evUpdate']; lootboxEntity.lootboxAnimationState.open"/>
+		<bind name="watchDH" value="'activeAnimation'; ['lootboxEntity.lootboxAnimationState.evUpdate']; lootboxEntity.lootboxAnimationState.active"/>
+		<bind name="watch" value="'isModalClosureNeeded'; lootboxTypesEntitiesList.length == 1 &amp;&amp; !activeAnimation"/>
+		<bind name="watchDH" value="'numberOfLootboxes';		['lootboxTypesEntity.lootboxTypeInfoComponent.evAmountChanged']; amount"/>
+		<bind name="watch" value="'isMultiple'; numberOfLootboxes &gt; 1"/>
+		<style>
+			<width value="100%"/>
+		</style>
+		<bind name="style" value="'height'; _hasDescription ? '100%' : 'auto'"/>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<backgroundImage value="url:../service_kit/frames/one_pixel_frame.png"/>
+				<background9Slice value="[2]"/>
+				<alpha value="0.1"/>
+			</style>
+		</block>
+		<block>
+			<styleClass value="$FullsizeAbsolute"/>
+			<style>
+				<backgroundColor value="0xFFFFFFFF"/>
+				<alpha value="0.04"/>
+			</style>
+		</block>
+		<block>
+			<styleClass value="$Fullsize"/>
+			<style>
+				<minHeight value="340"/>
+				<margin value="32px"/>
+			</style>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginBottom value="24px"/>
+				</style>
+				<block type="text">
+					<styleClass value="$TextDefaultBold23NM"/>
+					<style>
+						<width value="100%"/>
+						<alpha value="0.9"/>
+					</style>
+					<bind name="text" value="title"/>
+				</block>
+			</block>
+			<block>
+				<style>
+					<marginBottom value="24px"/>
+				</style>
+				<block type="text">
+					<styleClass value="$TextDefault17NM"/>
+					<style>
+						<alpha value="0.9"/>
+					</style>
+					<bind name="text" value="subst('IDS_SUBST_LOOTBOXES_QUANTITY', [], {amount: amount})"/>
+				</block>
+				<style>
+					<flow value="horizontal"/>
+				</style>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<marginBottom value="40px"/>
+				</style>
+				<bind name="instance" value="'LootboxProbabiltyLink'; isLinkAvailable ? {} : null"/>
+			</block>
+			<block>
+				<style>
+					<width value="100%"/>
+					<position value="absolute"/>
+					<bottom value="0"/>
+					<left value="0"/>
+				</style>
+				<block>
+					<style>
+						<width value="100%"/>
+					</style>
+					<block className="HorizontalDividerTwoPx">
+						<style>
+							<width value="100%"/>
+							<height value="2px"/>
+							<backgroundSize value="fill"/>
+							<backgroundImage value="url:../service_kit/dividers/divider_h.png"/>
+						</style>
+					</block>
+					<block>
+						<block className="HorizontalDividerTwoPx">
+							<style>
+								<width value="100%"/>
+								<height value="2px"/>
+								<backgroundSize value="fill"/>
+								<backgroundImage value="url:../service_kit/dividers/divider_h.png"/>
+							</style>
+						</block>
+						<style>
+							<position value="absolute"/>
+							<width value="100%"/>
+						</style>
+					</block>
+				</block>
+				<block>
+					<styleClass value="$MiddleAligned"/>
+					<block>
+						<bind name="action" value="'click'; amount == 1 ? 'setUserPref' : null; {value: 0, name: 'selectedLootbox'}"/>
+						<bind name="dispatch" value="'left_click'; isLootboxOpened ? 'hideRewards' : null; {}"/>
+						<bind name="clickSplit"/>
+						<style>
+							<width value="210px"/>
+							<marginTop value="32px"/>
+						</style>
+						<bind name="instance" value="'DefaultButton';	{	_width: '210px', _height: '27px',
+															_enabled: !activeAnimation,
+															_focusIndex: 0,
+															_defaultFocused: true,
+															_action: 'LootboxProxy.openLootboxByType',
+															_actionParams: {lootboxType: containerType, count: amount},
+															_isTransactionBtn: true,
+															_label: toUpperCase(tr('IDS_OPEN_LOOTBOX')) }"/>
+						<bind name="primaryEntityDH" value="'lootboxModalNewTip';		CC.newGuidingTip; SC.Context_guiding_tip.TIP_TYPE.LOOTBOXES_MODAL"/>
+						<bind name="primaryEntityDH" value="'lootboxModalRepeatNewTip';	CC.newGuidingTip; SC.Context_guiding_tip.TIP_TYPE.LOOTBOXES_MODAL_REPEAT"/>
+						<bind name="watchDH" value="'isLootboxModalNewTipActive';		['lootboxModalNewTip.newGuidingTip.evChanged'];			lootboxModalNewTip.newGuidingTip.isActive"/>
+						<bind name="watchDH" value="'isLootboxModalRepeatNewTipActive';	['lootboxModalRepeatNewTip.newGuidingTip.evChanged'];	lootboxModalRepeatNewTip.newGuidingTip.isActive"/>
+						<bind name="watch" value="'modalTipId'; 	isLootboxModalNewTipActive			? SC.Context_guiding_tip.TIP_TYPE.LOOTBOXES_MODAL : 
+												isLootboxModalRepeatNewTipActive	? SC.Context_guiding_tip.TIP_TYPE.LOOTBOXES_MODAL_REPEAT
+																					: SC.Context_guiding_tip.TIP_TYPE.NONE"/>
+						<bind name="watch" value="'modalTipVisible'; modalTipId != SC.Context_guiding_tip.TIP_TYPE.NONE"/>
+						<bind name="instance" value="'NewGuidingTipHub'; modalTipVisible ? {	_newTipId: modalTipId,
+																			_tipPositioning: 'left', 
+																			_offset: 5}
+																		: null"/>
+						<bind name="action" value="'click'; modalTipId == SC.Context_guiding_tip.TIP_TYPE.LOOTBOXES_MODAL_REPEAT ? 'deactivateTipChain': ''; 
+										{tip_chain_id: SC.Context_guiding_tip.TIP_CHAIN_ID.LOOTBOXES_REPEAT}"/>
+					</block>
+					<block>
+						<bind name="visible" value="isMultipleAmount"/>
+						<bind name="style" value="'marginTop'; isMultipleAmount ? '12px' : '0px'"/>
+						<block className="text_input_stepper" type="native">
+							<styleClass value="$MiddleVAligned"/>
+							<style>
+								<width value="100px"/>
+							</style>
+							<params>
+								<param name="actAsButton" value="true"/>
+								<param name="maxChars" value="100"/>
+								<param name="restrict" value="0-9"/>
+								<param name="enabled" value="true"/>
+								<param name="maxCheckEnabled" value="true"/>
+							</params>
+							<bind name="maxValue" value="amount"/>
+							<bind name="sync" value="'text'; 'changedWithCorrection'; 'numberOfLootboxes'; 'onCurrentLootboxesChanged'"/>
+							<bind name="sync" value="'isLocked'; 'lockChanged'; 'isButtonLocked'"/>
+							<bind name="ubFocus" value="1; false; true; true"/>
+							<bind name="name" value="'OpenLootboxesInput'"/>
+						</block>
+					</block>
+					<block>
+						<bind name="action" value="'click'; isModalClosureNeeded ? 'closeLootboxTypesModal' : 'setUserPref'; {value: 0, name: 'selectedLootbox'}"/>
+						<bind name="action" value="'click'; modalTipId == SC.Context_guiding_tip.TIP_TYPE.LOOTBOXES_MODAL_REPEAT ? 'deactivateTipChain': ''; 
+										{tip_chain_id: SC.Context_guiding_tip.TIP_CHAIN_ID.LOOTBOXES_REPEAT}"/>
+						<bind name="watch" value="'isMultiple'; numberOfLootboxes &gt; 1"/>
+						<style>
+							<width value="210px"/>
+						</style>
+						<bind name="style" value="'marginTop'; isMultiple ? '12px' : '0px'"/>
+						<bind name="instance" value="'DefaultButton'; isMultiple	? {	_width: '210px',
+																	_enabled: isMultiple &amp;&amp; !activeAnimation,
+																	_focusIndex: 1,
+																	_action: 'LootboxProxy.openLootboxesByType',
+																	_actionParams: {	lootboxType: containerType,
+																						count: numberOfLootboxes	},
+																	_isTransactionBtn: true,
+																	_label: subst(	'IDS_SUBST_PL_OPEN_N_CONTAINERS', [],
+																					{count: numberOfLootboxes}, numberOfLootboxes	) }
+																: null"/>
+					</block>
+				</block>
+			</block>
+		</block>
+	</block>
+</ui>
